@@ -1,4 +1,10 @@
+using System;
 using System.Collections.Concurrent;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Application.Handlers.Base.Exceptions;
+using Application.Handlers.Common;
 using Application.Handlers.Interface;
 using Microsoft.Extensions.DependencyInjection;
 using Models.Application.Handlers.Base;
@@ -6,113 +12,121 @@ using Models.Application.Handlers.Base.Registry;
 
 namespace Application.Handlers.Base;
 
+/// <summary> Implementation of the HandlerRequestRegistry </summary>
 public sealed class AppHandlerRequestRegistry : HandlerRequestRegistry
 {
-    private static readonly object _lock = new();
-    private static bool _isSetUp = false;
-    private static IServiceProvider _serviceProvider;
+    #region Private fields
+    private static IServiceProvider _rootServiceProvider;
     private static readonly ConcurrentDictionary<Type, ObjectFactory> _factoryCache = new();
-
+    #endregion
 
     private AppHandlerRequestRegistry()
     {
+        Setup();
     }
 
-    public override Task<HandlerResponse> ResolveAsync<TRequest>(
-        TRequest request, CancellationToken ct = default)
+    public override async Task<HandlerResponse> ResolveAsync<TRequest>(TRequest request, CancellationToken ct = default)
     {
-        var tRequest = typeof(TRequest);
-        var requestTypeName = tRequest.Name;
-
         // Try to get the feature handler definition from the container.
-        _requestRegistry.TryGetValue(requestTypeName, out var handlerDefinition);
+        var requestType = request.GetType();
 
         // Check if the handler definition is not null.
-        if (Equals(handlerDefinition, default))
+        if (!_requestRegistry.TryGetValue(requestType, out var handlerDefinition))
         {
-            return Task.FromResult<HandlerResponse>(default);
+            throw HandlerRequestRegistrySetupException.CannotFindHandlerForRequest(requestType);
         }
 
-        System.Console.WriteLine(request);
+        // Initialize target handler and execute the request.
+        await using var scope = _rootServiceProvider.CreateAsyncScope();
+        var scopeServiceProvider = scope.ServiceProvider;
 
-        // Initialize target handler.
-        var handler = CreateInstance(handlerDefinition);
         try
         {
-            var handler2 = (IBusinessHandler)handler;
-            // Execute the handler.
-            if (handler2 == null)
-            {
-                System.Console.WriteLine("Why null???");
-                return default;
-            }
-            else
-            {
-                return handler2.HandleAsync(request);
-            }
+            // Get the cached factory (safe due to ConcurrentDictionary)
+            var factory = _factoryCache.GetOrAdd(handlerDefinition, HandlerFactoryInitializer);
+
+            // Create the handler instance using the scoped provider
+            var handler = factory(scopeServiceProvider, null) as IBusinessHandler;
+
+            // Await the handler execution for better performance and exception handling
+            return await handler.HandleAsync(request);
         }
         catch (System.Exception ex)
         {
+            // Please provide logging here.
             System.Console.WriteLine(ex);
-            return null;
+            throw;
         }
 
-    }
-
-    internal static object CreateInstance(Type type)
-    {
-        // Get the factory from the cache.
-        var factory = _factoryCache.GetOrAdd(type, FactoryInitializer);
-
-        // Create an scope service provider.
-        var scopeServiceProvider = _serviceProvider.CreateScope().ServiceProvider;
-
-        // Execute the factory.
-        return factory(scopeServiceProvider, null);
-
-        // Initialize the factory.
-        static ObjectFactory FactoryInitializer(Type t)
+        #region Support local methods
+        static ObjectFactory HandlerFactoryInitializer(Type handlerType)
         {
-            return ActivatorUtilities.CreateFactory(t, Type.EmptyTypes);
+            return ActivatorUtilities.CreateFactory(handlerType, Type.EmptyTypes);
         }
+        #endregion
     }
 
+    #region Set up section
+    /// <summary>
+    ///     Set up for this handler request registry with the related service
+    ///     provider to support dependency injection for business handlers.
+    /// </summary>
+    /// <param name="serviceProvider">
+    ///     Service provider instance to set up with.
+    /// </param>
     public static void SetUp(IServiceProvider serviceProvider)
     {
-        if (_isSetUp)
+        if (IsSetUp)
         {
             return;
         }
 
-        lock (_lock)
-        {
-            if (!_isSetUp)
-            {
-                _serviceProvider = serviceProvider;
-                var registry = new AppHandlerRequestRegistry();
-                registry.Setup();
-            }
-        }
+        _rootServiceProvider = serviceProvider;
+        _ = new AppHandlerRequestRegistry();
     }
 
     protected override void Setup()
     {
-        var handlerAssembly = typeof(BusinessHandler<,>).Assembly;
-        var assemblyTypes = handlerAssembly.GetTypes();
+        if (!IsSetUp)
+        {
+            return;
+        }
+
+        // Process to get all business handlers from current assembly to set up for registry.
+        var assemblyTypes = typeof(BusinessHandler<,>).Assembly.GetTypes();
+        var handlerDefinitionType = typeof(HandlerDefinitionAttribute);
 
         foreach (var handlerType in assemblyTypes)
         {
             if (IsBusinessHandlerType(handlerType))
             {
-                var requestType = handlerType.GetHandlerRequestType();
+                // Get the HandlerDefinitionAttribute from the target business handler
+                // type to know its equivalent HandlerRequest.
+                var customAttributes = handlerType.GetCustomAttributes(true);
+
+                // Check if the target handlers already defined the definition attribute.
+                var definitionAttribute = customAttributes.FirstOrDefault(type => type.GetType().Equals(handlerDefinitionType));
+                if (definitionAttribute == null || definitionAttribute is not HandlerDefinitionAttribute handlerDefinition)
+                {
+                    throw HandlerRequestRegistrySetupException.HandlerDefinitionNotFound(handlerType);
+                }
+
+                // Add the request type for later resolve in registry logic.
+                var requestType = handlerDefinition.RequestType;
                 _requestRegistry.TryAdd(requestType.Name, handlerType);
             }
         }
 
-        _isSetUp = true;
-        _instance = this;
+        // Set up this implementation and call the base set up.
+        SetImplementedRegistry(this);
+        base.Setup();
     }
+    #endregion
 
+    #region Private support methods
+    /// <summary>
+    ///     Check if the input type is correctly business handler type or not.
+    /// </summary>
     private static bool IsBusinessHandlerType(Type inputType)
     {
         if (inputType.IsAbstract)
@@ -127,4 +141,5 @@ public sealed class AppHandlerRequestRegistry : HandlerRequestRegistry
 
         return inputType.BaseType.GetGenericTypeDefinition().Equals(typeof(BusinessHandler<,>));
     }
+    #endregion
 }

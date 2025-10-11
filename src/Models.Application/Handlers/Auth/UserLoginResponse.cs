@@ -9,4 +9,10 @@ public class UserLoginResponse : HandlerResponse
     public string AccessToken { get; set; }
 
     public string RefreshToken { get; set; }
+
+    public override string ToString()
+    {
+        return $"Is Success: {IsSuccess}, AccessToken: {AccessToken}, RefreshToken: {RefreshToken}";
+    }
+
 }

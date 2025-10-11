@@ -11,6 +11,11 @@ public sealed class UserLoginHandler : BusinessHandler<UserLoginRequest, UserLog
     {
         System.Console.WriteLine(request);
 
-        return new UserLoginResponse();
+        return new UserLoginResponse()
+        {
+            IsSuccess = true,
+            AccessToken = $"Bearer {request.Email}",
+            RefreshToken = $"Bearer {request.Password}",
+        };
     }
 }
