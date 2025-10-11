@@ -1,0 +1,17 @@
+D:\03_PROGRAMMING_PROJECT\C_SHARP_PROJECT\00_PET_PROJECTS\03_Clean_vertical_slide\src\Models.Application\bin\Debug\net8.0\Models.Application.deps.json
+D:\03_PROGRAMMING_PROJECT\C_SHARP_PROJECT\00_PET_PROJECTS\03_Clean_vertical_slide\src\Models.Application\bin\Debug\net8.0\Models.Application.dll
+D:\03_PROGRAMMING_PROJECT\C_SHARP_PROJECT\00_PET_PROJECTS\03_Clean_vertical_slide\src\Models.Application\bin\Debug\net8.0\Models.Application.pdb
+D:\03_PROGRAMMING_PROJECT\C_SHARP_PROJECT\00_PET_PROJECTS\03_Clean_vertical_slide\src\Models.Application\bin\Debug\net8.0\Core.dll
+D:\03_PROGRAMMING_PROJECT\C_SHARP_PROJECT\00_PET_PROJECTS\03_Clean_vertical_slide\src\Models.Application\bin\Debug\net8.0\Models.Repository.dll
+D:\03_PROGRAMMING_PROJECT\C_SHARP_PROJECT\00_PET_PROJECTS\03_Clean_vertical_slide\src\Models.Application\bin\Debug\net8.0\Models.Repository.pdb
+D:\03_PROGRAMMING_PROJECT\C_SHARP_PROJECT\00_PET_PROJECTS\03_Clean_vertical_slide\src\Models.Application\bin\Debug\net8.0\Core.pdb
+D:\03_PROGRAMMING_PROJECT\C_SHARP_PROJECT\00_PET_PROJECTS\03_Clean_vertical_slide\src\Models.Application\obj\Debug\net8.0\Models.Application.csproj.AssemblyReference.cache
+D:\03_PROGRAMMING_PROJECT\C_SHARP_PROJECT\00_PET_PROJECTS\03_Clean_vertical_slide\src\Models.Application\obj\Debug\net8.0\Models.Application.GeneratedMSBuildEditorConfig.editorconfig
+D:\03_PROGRAMMING_PROJECT\C_SHARP_PROJECT\00_PET_PROJECTS\03_Clean_vertical_slide\src\Models.Application\obj\Debug\net8.0\Models.Application.AssemblyInfoInputs.cache
+D:\03_PROGRAMMING_PROJECT\C_SHARP_PROJECT\00_PET_PROJECTS\03_Clean_vertical_slide\src\Models.Application\obj\Debug\net8.0\Models.Application.AssemblyInfo.cs
+D:\03_PROGRAMMING_PROJECT\C_SHARP_PROJECT\00_PET_PROJECTS\03_Clean_vertical_slide\src\Models.Application\obj\Debug\net8.0\Models.Application.csproj.CoreCompileInputs.cache
+D:\03_PROGRAMMING_PROJECT\C_SHARP_PROJECT\00_PET_PROJECTS\03_Clean_vertical_slide\src\Models.Application\obj\Debug\net8.0\Models.A.9A92A104.Up2Date
+D:\03_PROGRAMMING_PROJECT\C_SHARP_PROJECT\00_PET_PROJECTS\03_Clean_vertical_slide\src\Models.Application\obj\Debug\net8.0\Models.Application.dll
+D:\03_PROGRAMMING_PROJECT\C_SHARP_PROJECT\00_PET_PROJECTS\03_Clean_vertical_slide\src\Models.Application\obj\Debug\net8.0\refint\Models.Application.dll
+D:\03_PROGRAMMING_PROJECT\C_SHARP_PROJECT\00_PET_PROJECTS\03_Clean_vertical_slide\src\Models.Application\obj\Debug\net8.0\Models.Application.pdb
+D:\03_PROGRAMMING_PROJECT\C_SHARP_PROJECT\00_PET_PROJECTS\03_Clean_vertical_slide\src\Models.Application\obj\Debug\net8.0\ref\Models.Application.dll
