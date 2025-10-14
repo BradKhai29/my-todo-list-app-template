@@ -40,23 +40,14 @@ public sealed class AppHandlerRequestRegistry : HandlerRequestRegistry
         await using var scope = _rootServiceProvider.CreateAsyncScope();
         var scopeServiceProvider = scope.ServiceProvider;
 
-        try
-        {
-            // Get the cached factory (safe due to ConcurrentDictionary)
-            var factory = _factoryCache.GetOrAdd(handlerDefinition, HandlerFactoryInitializer);
+        // Get the cached factory (safe due to ConcurrentDictionary)
+        var factory = _factoryCache.GetOrAdd(handlerDefinition, HandlerFactoryInitializer);
 
-            // Create the handler instance using the scoped provider
-            var handler = factory(scopeServiceProvider, null) as IBusinessHandler;
+        // Create the handler instance using the scoped provider
+        var handler = factory(scopeServiceProvider, null) as IBusinessHandler;
 
-            // Await the handler execution for better performance and exception handling
-            return await handler.HandleAsync(request);
-        }
-        catch (System.Exception ex)
-        {
-            // Please provide logging here.
-            System.Console.WriteLine(ex);
-            throw;
-        }
+        // Await the handler execution for better performance and exception handling
+        return await handler.HandleAsync(request);
 
         #region Support local methods
         static ObjectFactory HandlerFactoryInitializer(Type handlerType)
@@ -87,7 +78,7 @@ public sealed class AppHandlerRequestRegistry : HandlerRequestRegistry
 
     protected override void Setup()
     {
-        if (!IsSetUp)
+        if (IsSetUp)
         {
             return;
         }
@@ -113,7 +104,10 @@ public sealed class AppHandlerRequestRegistry : HandlerRequestRegistry
 
                 // Add the request type for later resolve in registry logic.
                 var requestType = handlerDefinition.RequestType;
-                _requestRegistry.TryAdd(requestType.Name, handlerType);
+                if (!_requestRegistry.TryAdd(requestType, handlerType))
+                {
+                    throw HandlerRequestRegistrySetupException.HandlerWithSameRequest(requestType);
+                }
             }
         }
 

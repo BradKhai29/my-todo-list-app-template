@@ -19,18 +19,4 @@ public abstract class HandlerRequest
     ///     which contains the result of the operation (success, data, or error).
     /// </returns>
     public abstract Task<HandlerResponse> HandleAsync(CancellationToken ct);
-
-    /// <summary>
-    ///     Casts a generic HandlerResponse object to the specific
-    ///     <c>Response type</c> expected by this request.
-    /// </summary>
-    /// <remarks>
-    ///     This method helps ensure type safety by converting
-    ///     the response back to the correct concrete type,
-    /// </remarks>
-    /// <param name="response">The generic response object to cast.</param>
-    /// <returns>
-    ///     The response object that expected by this request instance.
-    /// </returns>
-    public abstract HandlerResponse GetResponse(HandlerResponse response);
 }

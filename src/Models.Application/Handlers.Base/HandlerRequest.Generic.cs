@@ -24,7 +24,19 @@ public abstract class HandlerRequest<TResponse> : HandlerRequest
         return HandlerRequestRegistry.Instance.ResolveAsync(this, ct);
     }
 
-    public override TResponse GetResponse(HandlerResponse response)
+    /// <summary>
+    ///     Casts a generic HandlerResponse object to the specific
+    ///     <c>Response type</c> expected by this request.
+    /// </summary>
+    /// <remarks>
+    ///     This method helps ensure type safety by converting
+    ///     the response back to the correct concrete type,
+    /// </remarks>
+    /// <param name="response">The generic response object to cast.</param>
+    /// <returns>
+    ///     The response object that expected by this request instance.
+    /// </returns>
+    public static TResponse GetExactResponse(HandlerResponse response)
     {
         return response as TResponse;
     }

@@ -14,5 +14,4 @@ public class UserLoginRequest : HandlerRequest<UserLoginResponse>
     {
         return $"Email: {Email}, Password: {Password}, Remember login: {RememberLogin}";
     }
-
 }

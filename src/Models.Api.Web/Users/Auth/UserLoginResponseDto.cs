@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Models.Api.Web.Base;
 
-namespace Models.Api.Web.Users.Auth
+namespace Models.Api.Web.Users.Auth;
+
+public class UserLoginResponseDto : ApiResponseDto
 {
-    public class UserLoginResponseDto
-    {
-        public int HttpStatusCode { get; set; }
-    }
+    public string AccessToken { get; set; }
+
+    public string RefreshToken { get; set; }
 }

@@ -28,4 +28,13 @@ public class HandlerRequestRegistrySetupException : Exception
     {
         return new HandlerRequestRegistrySetupException($"No business handler found for request [{requestType.Name}]");
     }
+
+    /// <summary>
+    ///     Throws this exception when the target request type already handled by existed business handler.
+    /// </summary>
+    /// <param name="requestType"> Request type that has exception. </param>
+    public static HandlerRequestRegistrySetupException HandlerWithSameRequest(Type requestType)
+    {
+        return new HandlerRequestRegistrySetupException($"Existed another handler handle same request [{requestType.Name}]");
+    }
 }
