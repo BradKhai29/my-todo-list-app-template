@@ -12,7 +12,7 @@ public class HandlerRequestRegistrySetupException : Exception
     }
 
     /// <summary>
-    ///     Throws this exception when the target handler type does not define the <see cref="Common.HandlerDefinitionAttribute"/>.
+    ///     Throws this exception when the target handler type does not define the <see cref="CustomAttributes.HandlerDefinitionAttribute"/>.
     /// </summary>
     /// <param name="handlerType"> Handler type that has exception. </param>
     public static HandlerRequestRegistrySetupException HandlerDefinitionNotFound(Type handlerType)

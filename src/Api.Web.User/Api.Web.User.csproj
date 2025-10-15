@@ -14,6 +14,7 @@
     <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     <ProjectReference Include="..\Models.Api.Web\Models.Api.Web.csproj" />
+    <ProjectReference Include="..\Api.Web.Common\Api.Web.Common.csproj" />
   </ItemGroup>
 
 </Project>

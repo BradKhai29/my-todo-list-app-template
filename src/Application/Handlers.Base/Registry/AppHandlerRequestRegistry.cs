@@ -3,14 +3,14 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Handlers.Base.CustomAttributes;
 using Application.Handlers.Base.Exceptions;
-using Application.Handlers.Common;
-using Application.Handlers.Interface;
+using Application.Handlers.Base.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Models.Application.Handlers.Base;
 using Models.Application.Handlers.Base.Registry;
 
-namespace Application.Handlers.Base;
+namespace Application.Handlers.Base.Registry;
 
 /// <summary> Implementation of the HandlerRequestRegistry </summary>
 public sealed class AppHandlerRequestRegistry : HandlerRequestRegistry

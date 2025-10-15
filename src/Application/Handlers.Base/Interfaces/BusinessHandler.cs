@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Models.Application.Handlers.Base;
 
-namespace Application.Handlers.Interface;
+namespace Application.Handlers.Base.Interfaces;
 
 /// <summary>
 ///     Base class for all specific business handlers.

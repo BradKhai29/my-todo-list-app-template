@@ -1,6 +1,6 @@
 using System;
 
-namespace Application.Handlers.Common;
+namespace Application.Handlers.Base.CustomAttributes;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
 public class HandlerDefinitionAttribute : Attribute

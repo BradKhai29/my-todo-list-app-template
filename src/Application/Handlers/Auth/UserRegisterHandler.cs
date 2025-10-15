@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
-using Application.Handlers.Common;
-using Application.Handlers.Interface;
+using Application.Handlers.Base.CustomAttributes;
+using Application.Handlers.Base.Interfaces;
 using Models.Application.Handlers.Auth;
 
 namespace Application.Handlers.Auth;

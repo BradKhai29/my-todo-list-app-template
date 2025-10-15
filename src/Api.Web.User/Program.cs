@@ -1,6 +1,4 @@
-using Application.Handlers.Base;
-using Models.Application.Handlers.Auth;
-using Models.Application.Handlers.Base;
+using Api.Web.Common.Extensions.AppHosts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +10,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-AppHandlerRequestRegistry.SetUp(app.Services);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -25,6 +22,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.UseBusinessHandlers();
 app.MapControllers();
 
 app.Run();
