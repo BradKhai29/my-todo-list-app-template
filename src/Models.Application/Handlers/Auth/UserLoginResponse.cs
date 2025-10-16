@@ -14,4 +14,13 @@ public class UserLoginResponse : HandlerResponse
     {
         return $"Is Success: {LoginResponse.IsSuccess}, AccessToken: {LoginResponse.AccessToken}, RefreshToken: {LoginResponse.RefreshToken}";
     }
+
+    public static readonly UserLoginResponse EmailNotExisted = new()
+    {
+        AppCode = UserLoginAppCode.EmailNotExisted,
+        LoginResponse = new()
+        {
+            IsSuccess = false,
+        }
+    };
 }

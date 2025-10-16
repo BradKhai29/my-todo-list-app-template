@@ -22,18 +22,9 @@ public sealed class UserLoginHandler : BusinessHandler<UserLoginRequest, UserLog
     protected override async Task<UserLoginResponse> HandleAsync(UserLoginRequest request, CancellationToken ct)
     {
         var isExisted = await _authService.Value.IsEmailExistedAsync(request.LoginInfo.Email, ct);
-        if (isExisted)
+        if (!isExisted)
         {
-            return new UserLoginResponse
-            {
-                AppCode = UserLoginAppCode.EmailExisted,
-                LoginResponse = new()
-                {
-                    IsSuccess = false,
-                    AccessToken = null,
-                    RefreshToken = null,
-                }
-            };
+            return UserLoginResponse.EmailNotExisted;
         }
 
         var loginResponse = await _authService.Value.LoginAsync(request.LoginInfo, ct);

@@ -1,15 +1,20 @@
+using System.Net;
+
 namespace Models.Application.Handlers.AppCode.Base;
 
 public abstract class HandlerAppCode
 {
-    protected HandlerAppCode(int codeNumber)
+    protected HandlerAppCode(int codeNumber, HttpStatusCode httpStatusCode)
     {
         CodeNumber = codeNumber;
+        HttpStatusCode = httpStatusCode;
     }
 
     protected abstract string AppCodePrefix { get; }
 
     protected int CodeNumber { get; }
+
+    public HttpStatusCode HttpStatusCode { get; }
 
     public string Code
     {

@@ -32,7 +32,8 @@ public class UserLoginRequestDto : ApiRequestDto<UserLoginRequest, UserLoginResp
 
         return new UserLoginResponseDto
         {
-            HttpStatusCode = (int)HttpStatusCode.OK,
+            AppCode = response.AppCode.Code,
+            HttpStatusCode = (int)response.AppCode.HttpStatusCode,
             AccessToken = response.LoginResponse.AccessToken,
             RefreshToken = response.LoginResponse.RefreshToken,
         };

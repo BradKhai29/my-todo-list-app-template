@@ -5,6 +5,8 @@ namespace Models.Api.Web.Base;
 /// </summary>
 public abstract class ApiResponseDto
 {
+    public string AppCode { get; set; }
+
     /// <summary>
     ///     HTTP response status code return with this DTO.
     /// </summary>
