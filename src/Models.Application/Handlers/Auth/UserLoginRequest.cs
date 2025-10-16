@@ -1,17 +1,14 @@
 using Models.Application.Handlers.Base;
+using Models.Application.Services.Auth;
 
 namespace Models.Application.Handlers.Auth;
 
 public class UserLoginRequest : HandlerRequest<UserLoginResponse>
 {
-    public string Email { get; set; }
-
-    public string Password { get; set; }
-
-    public bool RememberLogin { get; set; }
+    public LoginModel LoginInfo { get; set; }
 
     public override string ToString()
     {
-        return $"Email: {Email}, Password: {Password}, Remember login: {RememberLogin}";
+        return $"Email: {LoginInfo.Email}, Password: {LoginInfo.Password}, Remember login: {LoginInfo.RememberLogin}";
     }
 }

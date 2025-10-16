@@ -47,7 +47,7 @@ public sealed class AppHandlerRequestRegistry : HandlerRequestRegistry
         var handler = factory(scopeServiceProvider, null) as IBusinessHandler;
 
         // Await the handler execution for better performance and exception handling
-        return await handler.HandleAsync(request);
+        return await handler.HandleAsync(request, ct);
 
         #region Support local methods
         static ObjectFactory HandlerFactoryInitializer(Type handlerType)

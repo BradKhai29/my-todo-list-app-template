@@ -1,3 +1,4 @@
+using System.Threading;
 using System.Threading.Tasks;
 using Models.Application.Handlers.Base;
 
@@ -34,9 +35,9 @@ public abstract class BusinessHandler<TRequest, TResponse> : IBusinessHandler
     /// <returns>
     ///     The response wrapped back in a generic HandlerResponse Task.
     /// </returns>
-    public async Task<HandlerResponse> HandleAsync(HandlerRequest request)
+    public async Task<HandlerResponse> HandleAsync(HandlerRequest request, CancellationToken ct)
     {
-        return await HandleAsync((TRequest)request);
+        return await HandleAsync((TRequest)request, ct);
     }
 
     /// <summary>
@@ -51,5 +52,5 @@ public abstract class BusinessHandler<TRequest, TResponse> : IBusinessHandler
     /// <returns>
     ///     A Task returning the specific response object <typeparamref name="TResponse"/>.
     /// </returns>
-    protected abstract Task<TResponse> HandleAsync(TRequest request);
+    protected abstract Task<TResponse> HandleAsync(TRequest request, CancellationToken ct);
 }

@@ -17,9 +17,12 @@ public class UserLoginRequestDto : ApiRequestDto<UserLoginRequest, UserLoginResp
     {
         return new UserLoginRequest
         {
-            Email = Email,
-            Password = Password,
-            RememberLogin = RememberLogin
+            LoginInfo = new()
+            {
+                Email = Email,
+                Password = Password,
+                RememberLogin = RememberLogin
+            }
         };
     }
 
@@ -30,8 +33,8 @@ public class UserLoginRequestDto : ApiRequestDto<UserLoginRequest, UserLoginResp
         return new UserLoginResponseDto
         {
             HttpStatusCode = (int)HttpStatusCode.OK,
-            AccessToken = response.AccessToken,
-            RefreshToken = response.RefreshToken,
+            AccessToken = response.LoginResponse.AccessToken,
+            RefreshToken = response.LoginResponse.RefreshToken,
         };
     }
 

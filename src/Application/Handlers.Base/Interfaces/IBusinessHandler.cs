@@ -1,3 +1,4 @@
+using System.Threading;
 using System.Threading.Tasks;
 using Models.Application.Handlers.Base;
 
@@ -19,5 +20,5 @@ public interface IBusinessHandler
     /// <returns>
     ///     The handler response as the result of the business operation.
     /// </returns>
-    Task<HandlerResponse> HandleAsync(HandlerRequest request);
+    Task<HandlerResponse> HandleAsync(HandlerRequest request, CancellationToken ct);
 }
